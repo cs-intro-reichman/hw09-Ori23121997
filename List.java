@@ -24,26 +24,46 @@ public class List {
 
     /** Returns the CharData of the first element in this list. */
     public CharData getFirst() {
-        // Your code goes here
         return first.cp;
     }
 
     /** GIVE Adds a CharData object with the given character to the beginning of this list. */
     public void addFirst(char chr) {
-        // Your code goes here
+        CharData newCharData = new CharData(chr);
+        Node newNode = new Node(newCharData , first);
+        first = newNode;
+        size++;
     }
     
     /** GIVE Textual representation of this list. */
     public String toString() {
-        // Your code goes here
-        return "";
+        if (size ==0) {
+            return "";
+        }
+        Node currnet = first;
+        String res = "(";
+        while (currnet != null) {
+            res = res + currnet.cp.toString() + " ";
+            currnet = currnet.next;
+        }
+        return res.substring(0, res.length()-1)+")";
     }
 
     /** Returns the index of the first CharData object in this list
      *  that has the same chr value as the given char,
      *  or -1 if there is no such object in this list. */
     public int indexOf(char chr) {
-        // Your code goes here
+        int i = 0;
+        Node pointer = first;
+        while (pointer != null) {
+            if (pointer.cp.chr == chr) {
+                return i;
+            }
+            else {
+                i++;
+                pointer = pointer.next;
+            }
+        } 
         return -1;
     }
 
@@ -51,14 +71,41 @@ public class List {
      *  increments its counter. Otherwise, adds a new CharData object with the
      *  given chr to the beginning of this list. */
     public void update(char chr) {
-        // Your code goes here
+        if (indexOf(chr) == -1 ) {
+            addFirst(chr);
+        }else if (first.cp.chr == chr) {
+            first.cp.count++;
+        }
+        else{
+        ListIterator it = listIterator(indexOf(chr));
+        it.current.cp.count++;
+        }
     }
+
 
     /** GIVE If the given character exists in one of the CharData objects
      *  in this list, removes this CharData object from the list and returns
      *  true. Otherwise, returns false. */
     public boolean remove(char chr) {
-        // Your code goes here
+        if (first == null) {
+            return false;
+        }
+        if (first.cp.chr == chr) {
+            first = first.next;
+            size--;
+            return true;
+        }
+        Node currnet = first;
+        while (currnet.next != null) {
+            if (currnet.next.cp.chr == chr) {
+                currnet.next = currnet.next.next;
+                size--;
+                return true;
+            }
+            else {
+                currnet = currnet.next;
+            }
+        }
         return false;
     }
 
@@ -66,8 +113,20 @@ public class List {
      *  If the index is negative or is greater than the size of this list, 
      *  throws an IndexOutOfBoundsException. */
     public CharData get(int index) {
-        // Your code goes here
-        return null;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            return first.cp;
+        }
+        int i = 1;
+        Node currnet = first.next;
+        while (i != index) {
+            currnet = currnet.next;
+            i++;
+        }
+
+        return currnet.cp;
     }
 
     /** Returns an array of CharData objects, containing all the CharData objects in this list. */
