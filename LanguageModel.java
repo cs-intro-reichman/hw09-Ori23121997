@@ -129,29 +129,23 @@ public class LanguageModel {
 		return str.toString();
 	}
 
-   public static void main(String[] args) {
-    // 1. הגדרות המשחק
-    int windowLength = 7;
-    int randomSeed = 42; // תשנה את המספר הזה כדי לקבל טקסטים שונים!
-    String fileName = "originofspecies.txt"; // הקובץ ממנו לומדים
-    String initialText = "natural"; // חייב להיות באורך windowLength לפחות!
-    int textLength = 100; // כמה תווים לייצר
+public static void main(String[] args) {
+    int windowLength = Integer.parseInt(args[0]);
+    String initialText = args[1];
+    int generatedTextLength = Integer.parseInt(args[2]);
+    Boolean randomGeneration = args[3].equals("random");
+    String fileName = args[4];
 
-    // 2. יצירת המודל ואימון
-    // אם אתה רוצה אקראיות מוחלטת (בלי seed קבוע), תשתמש בבנאי הריק: new LanguageModel(windowLength)
-    LanguageModel lm = new LanguageModel(windowLength, randomSeed);
-    
-    System.out.println("Loading and training model...");
+    // יצירת המודל לפי הבחירה (אקראי או קבוע)
+    LanguageModel lm;
+    if (randomGeneration) {
+        lm = new LanguageModel(windowLength);
+    } else {
+        lm = new LanguageModel(windowLength, 20); // Seed קבוע לבדיקות
+    }
+
+    // אימון ויצירה
     lm.train(fileName);
-    System.out.println("Model trained!");
-
-    // 3. יצירת הטקסט
-    System.out.println("Generating text:");
-    String generated = lm.generate(initialText, textLength);
-
-    // 4. הדפסת התוצאה
-    System.out.println("-----------------------------------");
-    System.out.println(generated);
-    System.out.println("-----------------------------------");
+    System.out.println(lm.generate(initialText, generatedTextLength));
 }
 }
