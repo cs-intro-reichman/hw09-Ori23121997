@@ -129,7 +129,29 @@ public class LanguageModel {
 		return str.toString();
 	}
 
-    public static void main(String[] args) {
-		// Your code goes here
-    }
+   public static void main(String[] args) {
+    // 1. הגדרות המשחק
+    int windowLength = 7;
+    int randomSeed = 42; // תשנה את המספר הזה כדי לקבל טקסטים שונים!
+    String fileName = "originofspecies.txt"; // הקובץ ממנו לומדים
+    String initialText = "natural"; // חייב להיות באורך windowLength לפחות!
+    int textLength = 100; // כמה תווים לייצר
+
+    // 2. יצירת המודל ואימון
+    // אם אתה רוצה אקראיות מוחלטת (בלי seed קבוע), תשתמש בבנאי הריק: new LanguageModel(windowLength)
+    LanguageModel lm = new LanguageModel(windowLength, randomSeed);
+    
+    System.out.println("Loading and training model...");
+    lm.train(fileName);
+    System.out.println("Model trained!");
+
+    // 3. יצירת הטקסט
+    System.out.println("Generating text:");
+    String generated = lm.generate(initialText, textLength);
+
+    // 4. הדפסת התוצאה
+    System.out.println("-----------------------------------");
+    System.out.println(generated);
+    System.out.println("-----------------------------------");
+}
 }
