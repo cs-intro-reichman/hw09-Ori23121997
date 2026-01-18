@@ -6,10 +6,9 @@ public class LanguageModelTester {
         public static void main(String[] args) {
         String methodName = args[0];
         boolean result = false;
-        switch (methodName) {
+        switch (methodName) {       
             case "calculateProbabilities":
-                result = testCalculateProbabilities();
-                break;
+                result = testCalculateProbabilities(); 
             case "getRandomChar":
                 result = testGetRandomChar();
                 break;
