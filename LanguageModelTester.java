@@ -7,7 +7,7 @@ public class LanguageModelTester {
         String methodName = args[0];
         boolean result = false;
         switch (methodName) {       
-            case "calculateProbabilities()":
+            case "calculateProbabilities":
                 result = testCalculateProbabilities(); 
             case "getRandomChar":
                 result = testGetRandomChar();
